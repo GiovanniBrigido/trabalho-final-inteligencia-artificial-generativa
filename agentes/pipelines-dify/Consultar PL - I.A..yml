@@ -1,0 +1,353 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: Consultar PL - I.A.
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/huggingface_tei:0.1.4@4618e2c1d7697982f9ecc87b050ea99e0a132aeedc3bc3bbc357f23dbb7479b3
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openrouter:0.0.43@241af6052a82fa08c0d7c3756d7f2a57cc16d8b3c05d7fd58088ece28cae9e34
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1775685604938-source-1775685619939-target
+      selected: false
+      source: '1775685604938'
+      sourceHandle: source
+      target: '1775685619939'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1775685604938-source-1775823288316-target
+      source: '1775685604938'
+      sourceHandle: source
+      target: '1775823288316'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1775685619939-source-1775823427336-target
+      source: '1775685619939'
+      sourceHandle: source
+      target: '1775823427336'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1775823288316-source-answer-target
+      source: '1775823288316'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1775823427336-source-answer-target
+      source: '1775823427336'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: Input de Usuário
+        type: start
+        variables: []
+      height: 72
+      id: '1775685604938'
+      position:
+        x: 80
+        y: 261.9791458702202
+      positionAbsolute:
+        x: 80
+        y: 261.9791458702202
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'RESPOSTA LLM NORMAL
+
+          {{#1775823288316.text#}}
+
+
+          --------------------------------------
+
+          RESPOSTA LLM (RAG)
+
+          {{#1775823427336.text#}}'
+        selected: false
+        title: Resposta
+        type: answer
+        variables: []
+      height: 167
+      id: answer
+      position:
+        x: 874.4857585728171
+        y: 230.17281104684656
+      positionAbsolute:
+        x: 874.4857585728171
+        y: 230.17281104684656
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - OhTda7Yo0ql/GH5pVeZyh/PPfYBxdfYPYPbWLhyejKeFcNsqJ+DP8KuHtEZKaThk
+        metadata_filtering_mode: disabled
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/huggingface_tei/huggingface_tei
+          top_k: 4
+        query_attachment_selector: []
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: Recuperação de Contexto
+        type: knowledge-retrieval
+      height: 89
+      id: '1775685619939'
+      position:
+        x: 333.832577690817
+        y: 370.3095447597545
+      positionAbsolute:
+        x: 333.832577690817
+        y: 370.3095447597545
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        model:
+          completion_params:
+            temperature: 0.7
+            top_p: 0.95
+          mode: chat
+          name: google/gemini-2.5-flash-lite
+          provider: langgenius/openrouter/openrouter
+        prompt_template:
+        - id: f3deda0b-86e2-4c5a-8a74-e26f21d3043a
+          role: system
+          text: 'CONTEXTO:
+
+            {{#context#}}
+
+
+            '
+        - id: e716f318-661b-4af0-b53e-0a525af5efb8
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM (Normal)
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1775823288316'
+      position:
+        x: 333.832577690817
+        y: 184.79545082558005
+      positionAbsolute:
+        x: 333.832577690817
+        y: 184.79545082558005
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1775685619939'
+          - result
+        model:
+          completion_params:
+            temperature: 0.7
+            top_p: 0.95
+          mode: chat
+          name: google/gemini-2.5-flash-lite
+          provider: langgenius/openrouter/openrouter
+        prompt_template:
+        - id: 1ae55a74-c6ed-4add-a747-b2c786b1c2c6
+          role: system
+          text: 'CONTEXTO:
+
+            {{#context#}}
+
+
+            Você é um agente de reprodução fiel de texto jurídico recuperado por knowledge
+            retrieval.
+
+
+            Sua única função é identificar, dentro do conteúdo recuperado, o texto
+            correspondente ao Projeto de Lei de Inteligência Artificial 2338/2023
+            (PL 2338/23) e devolvê-lo na íntegra, com fidelidade literal máxima.
+
+
+            Regras obrigatórias:
+
+            1. Reproduza o texto exatamente como estiver no material recuperado.
+
+            2. Não resuma.
+
+            3. Não interprete.
+
+            4. Não explique.
+
+            5. Não reorganize.
+
+            6. Não parafraseie.
+
+            7. Não omita trechos.
+
+            8. Não acrescente texto seu.
+
+            9. Preserve a estrutura original do documento, incluindo títulos, capítulos,
+            seções, subseções, artigos, parágrafos, incisos, alíneas e itens.
+
+            11. Corrija pontuação ou estilo.
+
+            12. Não complete lacunas com conhecimento externo.
+
+            13. Se houver mais de uma versão no material recuperado, selecione apenas
+            a que estiver mais claramente identificada como PL 2338/2023.
+
+            14. Se o texto recuperado estiver incompleto, responda somente com: "Tente
+            perguntar outra informação ou deixar a pergunta mais clara."
+
+            15. Se o texto legal não estiver presente no material recuperado, responda
+            somente com: "Não possuo esse conhecimento na base de conhecimento, tente
+            perguntar outra informação."
+
+
+            Formato de saída:
+
+            - Retorne apenas o texto integral identificado.
+
+            - Não use markdown.
+
+            - Não use aspas.'
+        - id: 9db2bc91-b638-4fca-8359-f2ac0e900666
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM (RAG)
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1775823427336'
+      position:
+        x: 603.5408722736302
+        y: 370.3095447597545
+      positionAbsolute:
+        x: 603.5408722736302
+        y: 370.3095447597545
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -35.68952231047922
+      y: -111.10093247659609
+      zoom: 1.0988542175768796
+  rag_pipeline_variables: []
