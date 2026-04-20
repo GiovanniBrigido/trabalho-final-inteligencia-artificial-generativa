@@ -1,0 +1,644 @@
+app:
+  description: Consultor do funcionamento do sistema MidiaCad utilizando Casos de
+    Uso.
+  icon: 📑
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: MidiaCad - Casos de Uso
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/huggingface_tei:0.1.4@4618e2c1d7697982f9ecc87b050ea99e0a132aeedc3bc3bbc357f23dbb7479b3
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:0.1.3@66e156c4f612964c131c49168882e78c2cdfe366879506b97ad855b23c5d6d98
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1775685604938-source-1775685619939-target
+      selected: false
+      source: '1775685604938'
+      sourceHandle: source
+      target: '1775685619939'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1775685619939-source-1775687349488-target
+      selected: false
+      source: '1775685619939'
+      sourceHandle: source
+      target: '1775687349488'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1775755977023-source-llm-target
+      selected: false
+      source: '1775755977023'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: llm-source-answer-target
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1775687349488-source-1775755977023-target
+      source: '1775687349488'
+      sourceHandle: source
+      target: '1775755977023'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: Input de Usuário
+        type: start
+        variables: []
+      height: 72
+      id: '1775685604938'
+      position:
+        x: 82
+        y: 192
+      positionAbsolute:
+        x: 82
+        y: 192
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}
+
+
+            {{#1775685619939.result#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: llama3.2:3b
+          provider: langgenius/ollama/ollama
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 28e09a68-c173-496d-942f-6d2fb796e225
+          role: system
+          text: "Você é um agente especialista em instruções operacionais.\n\nSua\
+            \ função é receber:\n1. a pergunta do usuário já esclarecida;\n2. a fonte\
+            \ principal selecionada;\n3. as fontes complementares, quando existirem;\n\
+            4. o contexto documental associado.\n\nSeu objetivo é construir uma resposta\
+            \ prática em formato de passo a passo para executar o pedido do usuário\
+            \ no sistema.\n\nRegras de atuação:\n- Baseie-se exclusivamente nas fontes\
+            \ recebidas.\n- Não invente etapas que não estejam sustentadas pelos itens\
+            \ e arquivos fornecidos.\n- Consolide informações complementares quando\
+            \ houver referência cruzada.\n- Priorize clareza, ordem lógica e ação.\n\
+            - Use linguagem objetiva, técnica e instrucional.\n- Quando houver pré-condição,\
+            \ informe antes dos passos.\n- Quando houver caminhos alternativos, indique\
+            \ claramente.\n- Quando a documentação for insuficiente para completar\
+            \ o procedimento, informe a limitação de forma explícita e retorne que\
+            \ \"é necessário consultar um responsável pelo sistema.\"\n- Não mencione\
+            \ o processo interno de seleção de fontes.\n- Não reproduza o texto bruto\
+            \ das fontes; transforme em instruções operacionais.\n- Se houver dependências\
+            \ entre requisitos, incorpore-as ao procedimento.\n\nFormato de saída\
+            \ obrigatório:\n\"\"output\nSeguem as instruções:\n1. Pré-Condições\n\
+            \   - Pré-Condição 1:\n   - Pré-Condição 2:\n   ...\n2. Passos\n   - Passo\
+            \ 1:\n   - Passo 2:\n   ...\n3. Observações importantes\n   - [pré-requisitos,\
+            \ exceções, dependências, validações ou limites]\n\"\""
+        - id: 309de315-c1cd-4176-9098-978db39055a7
+          role: user
+          text: 'PERGUNTA ESCLARECIDA:
+
+            {{#1775755977023.pergunta_esclarecida#}}
+
+
+            FONTE PRINCIPAL:
+
+            {{#1775755977023.fonte_principal#}}
+
+
+            FONTES COMPLEMENTARES:
+
+            {{#1775755977023.fontes_complementares#}}
+
+
+            OBSERVAÇÃO DO INTERPRETADOR:
+
+            {{#1775755977023.observacao#}}
+
+
+            CONTEXTO DOCUMENTAL LIMPO:
+
+            {{#1775755977023.texto_limpo#}}
+
+
+            CONTEXTO DOCUMENTAL ORIGINAL:
+
+            {{#1775755977023.texto_original#}}
+
+
+            CÓDIGOS DETECTADOS:
+
+            {{#1775755977023.codigos_detectados#}}
+
+
+            TAREFA:
+
+            Com base exclusivamente nas fontes acima, construa o passo a passo de
+            como executar o pedido do usuário no sistema, de forma didática e em linguagem
+            natural.
+
+
+            Requisitos:
+
+            - Não invente etapas ausentes nas fontes.
+
+            - Se a documentação não for suficiente, diga explicitamente o que falta.'
+        - id: 155f8b02-c6ff-4064-a651-e274896d3a1f
+          role: assistant
+          text: ''
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              fontes_utilizadas:
+                items:
+                  properties:
+                    arquivo:
+                      type: string
+                    item:
+                      type: string
+                  required:
+                  - arquivo
+                  - item
+                  type: object
+                type: array
+              observacoes_importantes:
+                items:
+                  type: string
+                type: array
+              passo_a_passo:
+                items:
+                  type: string
+                type: array
+            required:
+            - passo_a_passo
+            - fontes_utilizadas
+            - observacoes_importantes
+            type: object
+        structured_output_enabled: false
+        title: 'Construtor '
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm
+      position:
+        x: 359.91381042165034
+        y: 342.5511938266726
+      positionAbsolute:
+        x: 359.91381042165034
+        y: 342.5511938266726
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: Resposta
+        type: answer
+        variables: []
+      height: 101
+      id: answer
+      position:
+        x: 359.91381042165034
+        y: 488.6859249127751
+      positionAbsolute:
+        x: 359.91381042165034
+        y: 488.6859249127751
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - zDL34v5inIJXA9YShm8nCoZaYcIG0lXNnbsBc+F5NpzTpyimzijuNzDlfjFwQXK0
+        metadata_filtering_mode: disabled
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/huggingface_tei/huggingface_tei
+          top_k: 4
+        query_attachment_selector: []
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: Recuperação de Contexto
+        type: knowledge-retrieval
+      height: 89
+      id: '1775685619939'
+      position:
+        x: 82
+        y: 342.5511938266726
+      positionAbsolute:
+        x: 82
+        y: 342.5511938266726
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1775685619939'
+          - result
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: llama3.2:3b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - id: 73ae40ad-610e-4dec-b9a1-efea60aeb65c
+          role: system
+          text: 'Você é um agente de interpretação e roteamento de conhecimento.
+
+
+            Sua função é receber:
+
+            1. a pergunta original do usuário; e
+
+            2. os trechos recuperados por knowledge retrieval.
+
+
+            Seu objetivo é:
+
+            1. esclarecer a intenção real do usuário sem alterar o sentido da pergunta;
+
+            2. identificar o item e o arquivo mais aderentes para responder à solicitação;
+
+            3. registrar fontes complementares quando houver referência cruzada entre
+            requisitos.
+
+
+            Regras de atuação:
+
+            - Trabalhe exclusivamente com o conteúdo fornecido.
+
+            - Não invente arquivo, item, seção ou requisito.
+
+            - Não responda a solicitação final do usuário.
+
+            - Seu papel não é explicar o procedimento; seu papel é preparar a pergunta
+            e localizar a melhor base documental.
+
+            - Se houver ambiguidade, reformule a pergunta de forma mais específica
+            e operacional.
+
+            - Se houver múltiplas fontes relevantes, selecione uma fonte principal
+            e liste as complementares.
+
+            - Dê preferência ao item mais diretamente relacionado à execução da tarefa
+            pedida pelo usuário.
+
+            - Preserve nomes completos de arquivos, itens, seções, subtópicos e referências.
+
+            - Quando houver cross-referencing entre requisitos, inclua também os itens
+            complementares necessários para a resposta do próximo agente.
+
+            - Se não houver evidência suficiente, diga isso explicitamente.
+
+
+            Critérios de seleção da fonte principal:
+
+            - correspondência direta com a ação pedida pelo usuário;
+
+            - aderência semântica entre pergunta e item;
+
+            - presença de instrução operacional;
+
+            - completude documental;
+
+            - menor dependência de inferência.'
+        - id: d39330f2-5f1f-4af4-824f-a2abd2d36624
+          role: user
+          text: 'PERGUNTA ORIGINAL DO USUÁRIO:
+
+            {{#sys.query#}}
+
+
+            TRECHOS RECUPERADOS PELO KNOWLEDGE RETRIEVAL:
+
+            {{#context#}}
+
+
+            TAREFA:
+
+            1. Esclareça a pergunta do usuário.
+
+            2. Identifique a fonte principal mais condizente.
+
+            3. Se houver referência cruzada entre requisitos, liste também as fontes
+            complementares.
+
+            4. Retorne exatamente no formato JSON estruturado definido.'
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              fonte_principal:
+                properties:
+                  arquivo:
+                    type: string
+                  item:
+                    type: string
+                required:
+                - arquivo
+                - item
+                type: object
+              fontes_complementares:
+                items:
+                  properties:
+                    arquivo:
+                      type: string
+                    item:
+                      type: string
+                  required:
+                  - arquivo
+                  - item
+                  type: object
+                type: array
+              observacao:
+                type: string
+              pergunta_esclarecida:
+                type: string
+            required:
+            - pergunta_esclarecida
+            - fonte_principal
+            - fontes_complementares
+            - observacao
+            type: object
+        structured_output_enabled: true
+        title: Interpretador
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1775687349488'
+      position:
+        x: 82
+        y: 488.6859249127751
+      positionAbsolute:
+        x: 82
+        y: 488.6859249127751
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import re\nimport json\n\ndef format_fonte_principal(fp):\n    if not\
+          \ isinstance(fp, dict) or not fp:\n        return \"Não identificada.\"\n\
+          \    arquivo = fp.get(\"arquivo\", \"\")\n    item = fp.get(\"item\", \"\
+          \")\n    return f\"Arquivo: {arquivo}\\nItem: {item}\".strip()\n\ndef safe_json_dumps(value):\n\
+          \    try:\n        return json.dumps(value, ensure_ascii=False, indent=2)\n\
+          \    except Exception:\n        return str(value)\n\ndef extract_text_from_retrieval(retrieved_context):\n\
+          \    if isinstance(retrieved_context, str):\n        return retrieved_context.strip()\n\
+          \n    if isinstance(retrieved_context, dict):\n        for key in [\"content\"\
+          , \"text\", \"page_content\", \"chunk\", \"document\"]:\n            if\
+          \ key in retrieved_context and retrieved_context[key]:\n               \
+          \ return str(retrieved_context[key]).strip()\n        return safe_json_dumps(retrieved_context)\n\
+          \n    if isinstance(retrieved_context, list):\n        parts = []\n    \
+          \    for idx, item in enumerate(retrieved_context, start=1):\n         \
+          \   if isinstance(item, dict):\n                title = (\n            \
+          \        item.get(\"title\")\n                    or item.get(\"name\")\n\
+          \                    or item.get(\"document_name\")\n                  \
+          \  or item.get(\"file_name\")\n                    or \"\"\n           \
+          \     )\n\n                content = (\n                    item.get(\"\
+          content\")\n                    or item.get(\"text\")\n                \
+          \    or item.get(\"page_content\")\n                    or item.get(\"chunk\"\
+          )\n                    or item.get(\"document\")\n                    or\
+          \ \"\"\n                )\n\n                metadata = item.get(\"metadata\"\
+          , {})\n\n                block = []\n                if title:\n       \
+          \             block.append(f\"[Trecho {idx} - Arquivo: {title}]\")\n\n \
+          \               if metadata:\n                    item_ref = (\n       \
+          \                 metadata.get(\"item\")\n                        or metadata.get(\"\
+          section\")\n                        or metadata.get(\"heading\")\n     \
+          \                   or metadata.get(\"source\")\n                      \
+          \  or \"\"\n                    )\n                    if item_ref:\n  \
+          \                      block.append(f\"Referência: {item_ref}\")\n\n   \
+          \             if content:\n                    block.append(str(content).strip())\n\
+          \                else:\n                    block.append(safe_json_dumps(item))\n\
+          \n                parts.append(\"\\n\".join(block))\n            else:\n\
+          \                parts.append(str(item))\n\n        return \"\\n\\n\".join(parts).strip()\n\
+          \n    return str(retrieved_context or \"\").strip()\n\ndef normalize_clarified_output(clarified_output):\n\
+          \    parsed = {}\n\n    if isinstance(clarified_output, str):\n        try:\n\
+          \            parsed = json.loads(clarified_output)\n        except Exception:\n\
+          \            parsed = {}\n    elif isinstance(clarified_output, dict):\n\
+          \        parsed = clarified_output\n    else:\n        parsed = {}\n\n \
+          \   if isinstance(parsed.get(\"structured_output\"), dict):\n        data\
+          \ = parsed.get(\"structured_output\", {})\n    else:\n        data = parsed\n\
+          \n    if not isinstance(data, dict) or \"pergunta_esclarecida\" not in data:\n\
+          \        raw_text = parsed.get(\"text\", \"\")\n        if isinstance(raw_text,\
+          \ str) and raw_text.strip():\n            try:\n                data = json.loads(raw_text)\n\
+          \            except Exception:\n                data = {}\n\n    if not\
+          \ isinstance(data, dict):\n        data = {}\n\n    fonte_principal = data.get(\"\
+          fonte_principal\", {})\n    if not isinstance(fonte_principal, dict):\n\
+          \        fonte_principal = {}\n\n    fontes_complementares = data.get(\"\
+          fontes_complementares\", [])\n    if not isinstance(fontes_complementares,\
+          \ list):\n        fontes_complementares = []\n\n    return {\n        \"\
+          pergunta_esclarecida\": str(data.get(\"pergunta_esclarecida\", \"\") or\
+          \ \"\"),\n        \"fonte_principal\": fonte_principal,\n        \"fontes_complementares\"\
+          : fontes_complementares,\n        \"observacao\": str(data.get(\"observacao\"\
+          , \"\") or \"\")\n    }\n\ndef format_fonte_principal(fp):\n    if not isinstance(fp,\
+          \ dict) or not fp:\n        return \"Não identificada.\"\n    arquivo =\
+          \ fp.get(\"arquivo\", \"\")\n    item = fp.get(\"item\", \"\")\n    return\
+          \ f\"Arquivo: {arquivo}\\nItem: {item}\".strip()\n\ndef format_fontes_complementares(fc):\n\
+          \    if not isinstance(fc, list) or not fc:\n        return \"Nenhuma.\"\
+          \n    linhas = []\n    for i, fonte in enumerate(fc, start=1):\n       \
+          \ if isinstance(fonte, dict):\n            arquivo = fonte.get(\"arquivo\"\
+          , \"\")\n            item = fonte.get(\"item\", \"\")\n            linhas.append(f\"\
+          {i}. Arquivo: {arquivo} | Item: {item}\")\n        else:\n            linhas.append(f\"\
+          {i}. {str(fonte)}\")\n    return \"\\n\".join(linhas)\n\ndef format_codigos(codigos):\n\
+          \    if not codigos:\n        return \"Nenhum.\"\n    return \", \".join(codigos)\n\
+          \ndef main(retrieved_context, clarified_output) -> dict:\n    data = normalize_clarified_output(clarified_output)\n\
+          \    text_original = extract_text_from_retrieval(retrieved_context)\n\n\
+          \    pattern_codes_extract = r'[\\(\\[\\{]?(?:FE|PC|PE|OBS|FP|FA)\\s?\\\
+          d+[\\)\\]\\}]?'\n    full_codes = re.findall(pattern_codes_extract, text_original)\n\
+          \n    pattern_doc = r'EMS-[A-Za-zÀ-ÿ0-9_-]+(?:\\s+[A-Za-zÀ-ÿ0-9_-]+)*\\\
+          s+[A-Z]{2}\\d+'\n\n    text_clean = re.sub(pattern_codes_extract, ' ', text_original)\n\
+          \    text_clean = re.sub(pattern_doc, ' ', text_clean)\n    text_clean =\
+          \ re.sub(r'\\s{2,}', ' ', text_clean).strip()\n\n    fonte_principal = data[\"\
+          fonte_principal\"]\n    fontes_complementares = data[\"fontes_complementares\"\
+          ]\n\n    return {\n        \"pergunta_esclarecida\": data[\"pergunta_esclarecida\"\
+          ],\n        \"fonte_principal\": format_fonte_principal(data[\"fonte_principal\"\
+          ]),\n        \"fontes_complementares\": format_fontes_complementares(data[\"\
+          fontes_complementares\"]),\n        \"observacao\": data[\"observacao\"\
+          ],\n        \"texto_original\": text_original,\n        \"texto_limpo\"\
+          : text_clean,\n        \"codigos_detectados\": format_codigos(full_codes)\n\
+          \    }\n"
+        code_language: python3
+        outputs:
+          codigos_detectados:
+            children: null
+            type: string
+          fonte_principal:
+            children: null
+            type: string
+          fontes_complementares:
+            children: null
+            type: string
+          observacao:
+            children: null
+            type: string
+          pergunta_esclarecida:
+            children: null
+            type: string
+          texto_limpo:
+            children: null
+            type: string
+          texto_original:
+            children: null
+            type: string
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        title: Code
+        type: code
+        variables:
+        - value_selector:
+          - '1775685619939'
+          - result
+          value_type: array[object]
+          variable: retrieved_context
+        - value_selector:
+          - '1775687349488'
+          - structured_output
+          value_type: object
+          variable: clarified_output
+      height: 51
+      id: '1775755977023'
+      position:
+        x: 359.91381042165034
+        y: 213
+      positionAbsolute:
+        x: 359.91381042165034
+        y: 213
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 22.527812234653993
+      y: -217.10096727054395
+      zoom: 0.9460576467255961
+  rag_pipeline_variables: []
