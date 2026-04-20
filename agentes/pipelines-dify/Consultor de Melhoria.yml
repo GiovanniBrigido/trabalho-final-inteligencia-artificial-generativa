@@ -1,0 +1,1023 @@
+app:
+  description: 'Verificar adequação de Termos de Referência de acordo com a Lei 14.133/2021
+    e propor melhorias.
+
+    '
+  icon: 🧠
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: Consultor de Melhoria
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/huggingface_tei:0.1.4@4618e2c1d7697982f9ecc87b050ea99e0a132aeedc3bc3bbc357f23dbb7479b3
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openrouter:0.0.43@241af6052a82fa08c0d7c3756d7f2a57cc16d8b3c05d7fd58088ece28cae9e34
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: 88e8865c-def6-4274-a829-1b906c4625d0
+    name: mail_to
+    selector:
+    - env
+    - mail_to
+    value: giovanni.cardoso@presidencia.gov.br
+    value_type: string
+  - description: ''
+    id: b7648822-3dd2-4e8b-98a4-f125dd06f724
+    name: mail_to_chris
+    selector:
+    - env
+    - mail_to_chris
+    value: wanjo.christopher@gmail.com
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1775520114355-source-1775571973846-target
+      selected: false
+      source: '1775520114355'
+      sourceHandle: source
+      target: '1775571973846'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1775573913896-source-1775574969492-target
+      selected: false
+      source: '1775573913896'
+      sourceHandle: source
+      target: '1775574969492'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: knowledge-retrieval
+      id: 1775571973846-source-1775609026915-target
+      selected: false
+      source: '1775571973846'
+      sourceHandle: source
+      target: '1775609026915'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1775609026915-source-1775573913896-target
+      selected: false
+      source: '1775609026915'
+      sourceHandle: source
+      target: '1775573913896'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1775574969492-source-17756626795760-target
+      selected: false
+      source: '1775574969492'
+      sourceHandle: source
+      target: '17756626795760'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 17756626795760-source-1775603950755-target
+      selected: false
+      source: '17756626795760'
+      sourceHandle: source
+      target: '1775603950755'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: agent
+      id: 1775603950755-source-17756798487731-target
+      selected: false
+      source: '1775603950755'
+      sourceHandle: source
+      target: '17756798487731'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: end
+      id: 17756798487731-source-1775607151243-target
+      selected: false
+      source: '17756798487731'
+      sourceHandle: source
+      target: '1775607151243'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: Entrada TR
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: Termo de Referência
+          max_length: 5
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: tr_doc
+      height: 107
+      id: '1775520114355'
+      position:
+        x: 64.83512248551051
+        y: 255.16983208974932
+      positionAbsolute:
+        x: 64.83512248551051
+        y: 255.16983208974932
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_array_file: true
+        selected: false
+        title: Extrator de Texto
+        type: document-extractor
+        variable_selector:
+        - '1775520114355'
+        - tr_doc
+      height: 103
+      id: '1775571973846'
+      position:
+        x: 64.83512248551051
+        y: 383.8515375721731
+      positionAbsolute:
+        x: 64.83512248551051
+        y: 383.8515375721731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        dataset_ids:
+        - 4FqWrVlkMyq5Oxg44DHDZFXCJP2ouhFRKtbKGgjpc5p3198j+shSUx8KpQ94S9B7
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/huggingface_tei/huggingface_tei
+          top_k: 4
+        query_attachment_selector: []
+        query_variable_selector: []
+        retrieval_mode: multiple
+        selected: false
+        title: Recuperação de Contexto
+        type: knowledge-retrieval
+      height: 88
+      id: '1775609026915'
+      position:
+        x: 64.83512248551051
+        y: 515.7352286463246
+      positionAbsolute:
+        x: 64.83512248551051
+        y: 515.7352286463246
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1775609026915'
+          - result
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: google/gemini-2.5-flash-lite
+          provider: langgenius/openrouter/openrouter
+        prompt_template:
+        - id: 80758f8a-1723-461a-b7d2-087c5afe0a0d
+          role: system
+          text: 'Você é um analista técnico de licitações públicas.
+
+
+            NUNCA confie apenas no seu conhecimento interno.
+
+            Sempre busque evidência na Lei 14.133/21.
+
+
+            Fluxo obrigatório:
+
+            1. Identifique pontos do TR que exigem base legal
+
+            2. Use o contexto legal como base da análise
+
+
+            Critérios:
+
+            - Clareza do objeto
+
+            - Indicação de requisitos técnicos
+
+            - Presença de critérios de julgamento
+
+            - Coerência
+
+
+            Para cada problema encontrado:
+
+            - Descreva o problema em uma frase (sucintamente)
+
+            - Cite a lei (artigo + trecho)
+
+            - Explique a inconsistência sucintamente
+
+
+            Toda a análise deve conter no máximo 5000 tokens.'
+        - id: 81039c00-0e13-40a0-92a5-87955b022659
+          role: user
+          text: '--------------------------
+
+            CONTEXTO LEGAL:
+
+            {{#context#}}
+
+            ---------------------------
+
+            TR:
+
+            {{#1775571973846.text#}}
+
+            ---------------------------
+
+            Classifique o TR como: ADEQUADO, PARCIAL ou INADEQUADO.'
+        reasoning_format: tagged
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              itens:
+                items:
+                  additionalProperties: false
+                  properties:
+                    correcao_necessaria:
+                      minLength: 10
+                      type: string
+                    criterio:
+                      enum:
+                      - definicao_objeto
+                      - requisitos_tecnicos
+                      - avaliacao_desempenho
+                      - criterios_julgamento_tecnico
+                      - integracao_operacao
+                      type: string
+                    impacto_tecnico:
+                      minLength: 10
+                      type: string
+                    problema:
+                      minLength: 10
+                      type: string
+                    status:
+                      enum:
+                      - ADEQUADO
+                      - PARCIAL
+                      - INADEQUADO
+                      type: string
+                  required:
+                  - criterio
+                  - status
+                  - problema
+                  - impacto_tecnico
+                  - correcao_necessaria
+                  type: object
+                minItems: 5
+                type: array
+              resumo_geral:
+                additionalProperties: false
+                properties:
+                  principais_falhas:
+                    items:
+                      minLength: 10
+                      type: string
+                    type: array
+                  status_global:
+                    enum:
+                    - ADEQUADO
+                    - PARCIAL
+                    - INADEQUADO
+                    type: string
+                required:
+                - status_global
+                - principais_falhas
+                type: object
+            required:
+            - itens
+            - resumo_geral
+            type: object
+        structured_output_enabled: true
+        title: Analista Técnico
+        type: llm
+        vision:
+          enabled: false
+      height: 86
+      id: '1775573913896'
+      position:
+        x: 352.2985113605452
+        y: 276.1698320897493
+      positionAbsolute:
+        x: 352.2985113605452
+        y: 276.1698320897493
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1775609026915'
+          - result
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: google/gemini-2.5-flash-lite
+          provider: langgenius/openrouter/openrouter
+        prompt_template:
+        - id: c27922c9-06b4-4ef1-956e-c3f3c5772ea3
+          role: system
+          text: 'Você é um auditor de risco em contratações públicas.
+
+
+            Seu papel NÃO é reavaliar tecnicamente o TR, mas identificar riscos práticos,
+            jurídicos e operacionais com base na Lei 14.133/21.
+
+
+            NUNCA confie apenas no seu conhecimento interno.
+
+            Sempre utilize o CONTEXTO LEGAL fornecido como base.
+
+
+            Fluxo obrigatório:
+
+            1. Identifique riscos reais (não teóricos)
+
+            2. Relacione cada risco a uma falha no TR
+
+            3. Fundamente com base legal
+
+
+            Critérios de risco:
+
+            - Risco de julgamento subjetivo
+
+            - Risco de inviabilidade técnica
+
+            - Risco de impugnação/licitação fracassada
+
+            - Risco contratual (penalidades frágeis)
+
+            - Risco de segurança da informação/LGPD
+
+
+            Para cada risco:
+
+            - Descreva o risco em uma frase (sucinto)
+
+            - Cite a lei (artigo + trecho relevante)
+
+            - Explique a causa no TR
+
+            - Explique a consequência prática
+
+
+            Classificação final:
+
+            - ALTO → compromete a licitação ou pode gerar judicialização
+
+            - MÉDIO → pode gerar problemas operacionais
+
+            - BAIXO → impacto limitado
+
+
+            Se não houver risco relevante, diga explicitamente: "Sem riscos relevantes
+            identificados".
+
+
+            Toda a análise deve conter no máximo 5000 tokens.'
+        - id: 5c1189b9-68db-45eb-8922-e81616649e4a
+          role: user
+          text: '--------------------------
+
+            CONTEXTO LEGAL:
+
+            {{#context#}}
+
+            --------------------------
+
+            ANÁLISE TÉCNICA:
+
+            {{#1775573913896.structured_output#}}
+
+            --------------------------
+
+            TR:
+
+            {{{#1775571973846.text#}}
+
+            --------------------------
+
+            Identifique e descreva os principais riscos associados a este TR.
+
+            Classifique o risco geral como: ALTO, MÉDIO ou BAIXO.'
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              nivel_risco_geral:
+                type: string
+              riscos:
+                items:
+                  properties:
+                    consequencia:
+                      type: string
+                    descricao:
+                      type: string
+                    fundamento_legal:
+                      type: string
+                    nivel:
+                      type: string
+                    tipo_risco:
+                      type: string
+                  required:
+                  - tipo_risco
+                  - nivel
+                  - descricao
+                  - fundamento_legal
+                  - consequencia
+                  type: object
+                type: array
+            required:
+            - riscos
+            - nivel_risco_geral
+            type: object
+        structured_output_enabled: true
+        title: Auditor de Risco
+        type: llm
+        vision:
+          enabled: false
+      height: 86
+      id: '1775574969492'
+      position:
+        x: 347.51813857240404
+        y: 383.8515375721731
+      positionAbsolute:
+        x: 347.51813857240404
+        y: 383.8515375721731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        code: "import json\n\ndef main(arg1) -> dict:\n    \"\"\"\n    arg1 pode ser:\n\
+          \    - dict (structured output do Dify)\n    - string JSON\n    - fallback\
+          \ inválido\n    \"\"\"\n\n    # Normalização de entrada\n    if isinstance(arg1,\
+          \ dict):\n        data = arg1\n    elif isinstance(arg1, str):\n       \
+          \ try:\n            data = json.loads(arg1)\n        except:\n         \
+          \   data = {}\n    else:\n        data = {}\n\n    melhorias = data.get(\"\
+          melhorias\", [])\n    priorizacao_geral = data.get(\"priorizacao_geral\"\
+          , \"N/A\")\n    resumo_executivo = data.get(\"resumo_executivo\", \"N/A\"\
+          )\n\n    documents = []\n\n    # Documento resumo\n    documents.append({\n\
+          \        \"title\": \"Resumo do Consultor de Melhoria\",\n        \"content\"\
+          : (\n            f\"Priorização geral: {priorizacao_geral}\\n\"\n      \
+          \      f\"Quantidade de melhorias: {len(melhorias)}\\n\"\n            f\"\
+          Resumo executivo: {resumo_executivo}\"\n        ),\n        \"metadata\"\
+          : {\n            \"priorizacao_geral\": priorizacao_geral,\n           \
+          \ \"quantidade_melhorias\": len(melhorias),\n            \"resumo_executivo\"\
+          : resumo_executivo\n        }\n    })\n\n    # Documentos individuais de\
+          \ melhoria\n    for i, m in enumerate(melhorias, 1):\n        documents.append({\n\
+          \            \"title\": f\"Melhoria {i} - {m.get('titulo', 'N/A')}\",\n\
+          \            \"content\": (\n                f\"Título: {m.get('titulo',\
+          \ 'N/A')}\\n\"\n                f\"Problema identificado: {m.get('problema_identificado',\
+          \ 'N/A')}\\n\"\n                f\"Origem do apontamento: {m.get('origem_apontamento',\
+          \ 'N/A')}\\n\"\n                f\"Local de ajuste no TR: {m.get('local_ajuste_tr',\
+          \ 'N/A')}\\n\"\n                f\"Melhoria proposta: {m.get('melhoria_proposta',\
+          \ 'N/A')}\\n\"\n                f\"Redação sugerida: {m.get('redacao_sugerida',\
+          \ 'N/A')}\\n\"\n                f\"Justificativa prática: {m.get('justificativa_pratica',\
+          \ 'N/A')}\\n\"\n                f\"Fundamento legal: {m.get('fundamento_legal',\
+          \ 'N/A')}\\n\"\n                f\"Prioridade: {m.get('prioridade', 'N/A')}\"\
+          \n            ),\n            \"metadata\": m\n        })\n\n    # JSON\
+          \ bruto\n    documents.append({\n        \"title\": \"Dados Estruturados\
+          \ do Consultor de Melhoria\",\n        \"content\": json.dumps(data, ensure_ascii=False,\
+          \ indent=2),\n        \"metadata\": {\"tipo\": \"raw_json\"}\n    })\n\n\
+          \    return {\n        \"context\": documents\n    }"
+        code_language: python3
+        outputs:
+          context:
+            children: null
+            type: array[object]
+        selected: false
+        title: Gerador de Contexto
+        type: code
+        variables:
+        - value_selector:
+          - '1775574969492'
+          - structured_output
+          value_type: object
+          variable: arg1
+      height: 50
+      id: '1775603950755'
+      position:
+        x: 660.2496190796884
+        y: 276.1698320897493
+      positionAbsolute:
+        x: 660.2496190796884
+        y: 276.1698320897493
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        outputs:
+        - value_selector:
+          - '1775573913896'
+          - structured_output
+          value_type: object
+          variable: out_tecnico
+        - value_selector:
+          - '1775574969492'
+          - structured_output
+          value_type: object
+          variable: out_risco
+        - value_selector:
+          - '17756626795760'
+          - structured_output
+          value_type: object
+          variable: out_melhoria
+        selected: false
+        title: Resumo do Processo
+        type: end
+      height: 139
+      id: '1775607151243'
+      position:
+        x: 942.1647096838981
+        y: 339.56438433566296
+      positionAbsolute:
+        x: 942.1647096838981
+        y: 339.56438433566296
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1775609026915'
+          - result
+        isInIteration: false
+        isInLoop: false
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: google/gemini-2.5-flash-lite
+          provider: langgenius/openrouter/openrouter
+        prompt_template:
+        - id: c27922c9-06b4-4ef1-956e-c3f3c5772ea3
+          role: system
+          text: "Você é um Consultor de Melhoria de Termo de Referência (TR) em contratações\
+            \ públicas.\n\nSeu papel NÃO é reanalisar o TR do zero, nem repetir integralmente\
+            \ os achados anteriores.\nSeu papel é consolidar os problemas identificados\
+            \ pelos agentes \"Analista Técnico\" e \"Auditor de Risco\" e propor melhorias\
+            \ objetivas no TR.\n\nNUNCA confie apenas no seu conhecimento interno.\n\
+            Sempre utilize como base no seguinte:\n1. Conteúdo do TR recebido;\n2.\
+            \ Relatório do Analista Técnico;\n3. Relatório do Auditor de Risco;\n\
+            4. CONTEXTO LEGAL fornecido.\n\nObjetivo:\nProduzir um relatório de melhoria\
+            \ do TR, sugerindo ajustes concretos para corrigir falhas técnicas, jurídicas,\
+            \ operacionais e de conformidade identificadas anteriormente.\n\nFluxo\
+            \ obrigatório:\n1. Identifique os problemas que exigem correção no TR\n\
+            2. Converta cada problema em recomendação prática de melhoria com base\
+            \ na Lei 14133\n3. Sempre fundamente a recomendação com base legal\n4.\
+            \ Priorize mudanças que aumentem clareza, objetividade, competitividade,\
+            \ exequibilidade e segurança jurídica\n\nCritérios de atuação:\n- Corrigir\
+            \ qualquer parte do TR que não esteja em conformidade com a Lei 14.133,\
+            \ de acordo com o recebido pelos Analistas Técnico e de Risco\n\nPara\
+            \ cada ponto de melhoria:\n- Descreva o problema identificado\n- Indique\
+            \ a origem do problema:\n  - Analista Técnico\n  - Auditor de Risco\n\
+            - Sugira a alteração recomendada no TR de forma objetiva\n- Explique por\
+            \ que a alteração melhora o TR\n- Sempre que aplicável, fundamente com\
+            \ artigo da Lei 14.133/21 ou outra norma pertinente\n\nFormato de saída:\n\
+            1. Resumo executivo\n   - visão geral das principais fragilidades do TR\n\
+            \   - síntese das prioridades de correção\n\n2. Recomendações de melhoria\n\
+            \   Para cada recomendação, apresentar:\n   - Título da melhoria\n   -\
+            \ Problema identificado\n   - Origem do apontamento\n   - Sugestão de\
+            \ ajuste no TR\n   - Justificativa prática\n   - Fundamento legal, se\
+            \ aplicável\n\n3. Priorização final\n   Classifique cada recomendação\
+            \ como:\n   - ALTA → necessária para evitar risco jurídico, fracasso da\
+            \ licitação ou inviabilidade contratual\n   - MÉDIA → importante para\
+            \ melhorar execução, objetividade ou governança\n   - BAIXA → aperfeiçoamento\
+            \ desejável, mas não crítico\n\nRegras de resposta:\n- Seja objetivo,\
+            \ técnico e propositivo\n- Não repita integralmente os relatórios anteriores\n\
+            - Não invente problemas que não estejam sustentados pelos insumos\n- Não\
+            \ proponha alterações genéricas; as sugestões devem ser acionáveis e redigidas\
+            \ de forma prática\n- Sempre que possível, apresente redação sugerida\
+            \ para o TR\n- Se não houver melhorias relevantes a propor, diga explicitamente:\
+            \ \"Sem melhorias relevantes adicionais identificadas\"\n\nToda a análise\
+            \ deve conter no máximo 5000 tokens."
+        - id: 5c1189b9-68db-45eb-8922-e81616649e4a
+          role: user
+          text: '--------------------------
+
+            CONTEXTO LEGAL:
+
+            {{#context#}}
+
+            --------------------------
+
+            ANÁLISE TÉCNICA:
+
+            {{#1775573913896.structured_output#}}
+
+            --------------------------
+
+            ANÁLISE RISCO:
+
+            {{#1775574969492.structured_output#}}
+
+            --------------------------
+
+            TR:
+
+            {{{#1775571973846.text#}}
+
+            --------------------------
+
+            Com base exclusivamente nos insumos acima, gere um relatório de melhoria
+            do TR.
+
+
+            Para cada melhoria:
+
+            - problema identificado;
+
+            - origem do apontamento (Analista Técnico, Auditor de Risco ou Ambos);
+
+            - trecho ou seção do TR que deve ser ajustado;
+
+            - melhoria proposta;
+
+            - justificativa prática;
+
+            - fundamento legal aplicável;
+
+            - sugestão de redação, quando possível.
+
+
+            Ao final, classifique cada recomendação como ALTA, MÉDIA ou BAIXA prioridade.
+
+            Não invente problemas não sustentados pelos insumos.
+
+            Se não houver melhorias relevantes, diga: "Sem melhorias relevantes adicionais
+            identificadas".
+
+
+            Indique, sempre que possível, a seção, cláusula, exigência ou critério
+            do TR que deve ser alterado, e proponha a melhoria correspondente com
+            fundamento legal.
+
+            '
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              melhorias:
+                items:
+                  properties:
+                    fundamento_legal:
+                      type: string
+                    justificativa_pratica:
+                      type: string
+                    local_ajuste_tr:
+                      type: string
+                    melhoria_proposta:
+                      type: string
+                    origem_apontamento:
+                      enum:
+                      - Analista Técnico
+                      - Auditor de Risco
+                      - Ambos
+                      type: string
+                    prioridade:
+                      enum:
+                      - ALTA
+                      - MÉDIA
+                      - BAIXA
+                      type: string
+                    problema_identificado:
+                      type: string
+                    redacao_sugerida:
+                      type: string
+                    titulo:
+                      type: string
+                  required:
+                  - titulo
+                  - problema_identificado
+                  - origem_apontamento
+                  - local_ajuste_tr
+                  - melhoria_proposta
+                  - justificativa_pratica
+                  - fundamento_legal
+                  - prioridade
+                  type: object
+                type: array
+              priorizacao_geral:
+                enum:
+                - ALTA
+                - MÉDIA
+                - BAIXA
+                type: string
+              resumo_executivo:
+                type: string
+            required:
+            - resumo_executivo
+            - melhorias
+            - priorizacao_geral
+            type: object
+        structured_output_enabled: true
+        title: Consultor de Melhoria
+        type: llm
+        vision:
+          enabled: false
+      height: 86
+      id: '17756626795760'
+      position:
+        x: 347.51813857240404
+        y: 515.7352286463246
+      positionAbsolute:
+        x: 347.51813857240404
+        y: 515.7352286463246
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        agent_parameters:
+          context:
+            type: variable
+            value:
+            - '1775603950755'
+            - context
+          instruction:
+            type: constant
+            value: "Você é um agente responsável por decidir e executar o envio de\
+              \ emails formais com base no relatório estruturado do Consultor de Melhoria.\n\
+              \nVocê possui acesso à ferramenta:\n- send_email(to, subject, body)\n\
+              \nOBJETIVO:\nAvaliar os dados recebidos e chamar automaticamente send_email\
+              \ quando as condições forem atendidas.\n\nESTRUTURA DE ENTRADA:\n- priorizacao_geral:\
+              \ \"ALTA\", \"MÉDIA\" ou \"BAIXA\"\n- melhorias: lista de melhorias\
+              \ propostas\n- resumo_executivo: resumo geral das fragilidades identificadas\n\
+              \nConsidere:\n- quantidade_melhorias = tamanho da lista \"melhorias\"\
+              \n\nREGRAS DE DECISÃO:\n\n1. Enviar email se:\n   - priorizacao_geral\
+              \ = \"ALTA\"\n   → tipo = \"REVISÃO URGENTE\"\n\n2. Enviar email se:\n\
+              \   - priorizacao_geral = \"MÉDIA\"\n   → tipo = \"AJUSTES NECESSÁRIOS\"\
+              \n\n3. Enviar email se:\n   - priorizacao_geral = \"BAIXA\"\n   E quantidade_melhorias\
+              \ >= 1\n   → tipo = \"APERFEIÇOAMENTO\"\n\n4. NÃO enviar email se:\n\
+              \   - priorizacao_geral = \"BAIXA\"\n   E quantidade_melhorias = 0\n\
+              \nFLUXO:\n\n1. Leia os dados de entrada\n2. Calcule quantidade_melhorias\
+              \ com base na lista \"melhorias\"\n3. Aplique as regras acima\n4. Se\
+              \ NÃO enviar:\n   - Retorne apenas: \"Nenhum email necessário\"\n\n\
+              5. Se enviar:\n   - Gere um assunto curto e direto\n   - Gere um corpo\
+              \ formal, objetivo e baseado exclusivamente nos dados recebidos\n  \
+              \ - Informe que o TR demanda revisão, ajuste ou aperfeiçoamento, conforme\
+              \ o caso\n   - Chame a tool send_email\n\nREGRAS DE ESCRITA:\n\n- Linguagem\
+              \ formal\n- Direto ao ponto\n- Baseado apenas nas análises fornecidas\n\
+              - Sem inventar informações\n- Não mencionar informações ausentes nos\
+              \ dados\n- Não reproduzir integralmente o JSON\n- Resumir apenas os\
+              \ pontos mais relevantes para ação\n\nIMPORTANTE:\nSempre que as regras\
+              \ indicarem envio, você DEVE chamar a tool send_email.\nSe as regras\
+              \ não indicarem envio, você NÃO deve chamar nenhuma tool.\nNão utilize\
+              \ markdown na resposta enviada. Pois o corpo do e-mail não suporta."
+          model:
+            type: constant
+            value:
+              completion_params:
+                temperature: 0.7
+                top_p: 0.9
+              mode: chat
+              model: google/gemini-2.5-flash-lite
+              model_type: llm
+              provider: langgenius/openrouter/openrouter
+              type: model-selector
+          query:
+            type: constant
+            value: '--------------------------
+
+              DESTINATARIO:
+
+              {{#env.mail_to#}}
+
+
+              --------------------------
+
+              RELATÓRIO DE MELHORIA:
+
+              {{#1775603950755.context#}}
+
+
+              --------------------------
+
+              TAREFA:
+
+
+              Com base no relatório de melhoria recebido:
+
+
+              - identifique a priorização geral;
+
+              - identifique a quantidade de melhorias propostas;
+
+              - aplique as regras de decisão definidas para envio de email.
+
+
+              Regras:
+
+              - Se a priorização geral justificar envio, gere o email e chame OBRIGATORIAMENTE
+              send_email
+
+              - Se não justificar envio, retorne apenas: "Nenhum email necessário"
+
+
+              Se houver envio:
+
+              - use linguagem formal;
+
+              - seja direto e objetivo;
+
+              - baseie-se exclusivamente no relatório de melhoria;
+
+              - inclua todos os detalhes de melhoria, inclusive as citações nos artigos;
+
+              - não invente informações.
+
+
+              Seja direto e objetivo.'
+          tools:
+            type: constant
+            value:
+            - enabled: true
+              extra:
+                description: "\n    Sends an email using the Gmail API.\n\n    Args:\n\
+                  \        to: The email address of the recipient.\n        subject:\
+                  \ The subject of the email.\n        body: The body content of the\
+                  \ email.\n    "
+              parameters:
+                body:
+                  auto: 1
+                  value: null
+                subject:
+                  auto: 1
+                  value: null
+                to:
+                  auto: 1
+                  value: null
+              provider_name: gmail-mcp
+              provider_show_name: Gmail MCP Server
+              settings: {}
+              tool_description: "\n    Sends an email using the Gmail API.\n\n   \
+                \ Args:\n        to: The email address of the recipient.\n       \
+                \ subject: The subject of the email.\n        body: The body content\
+                \ of the email.\n    "
+              tool_label: send_email
+              tool_name: send_email
+              type: mcp
+        agent_strategy_label: FunctionCalling
+        agent_strategy_name: function_calling
+        agent_strategy_provider_name: langgenius/agent/agent
+        error_strategy: fail-branch
+        isInIteration: false
+        isInLoop: false
+        meta:
+          minimum_dify_version: 1.7.0
+          version: 0.0.2
+        output_schema: {}
+        plugin_unique_identifier: langgenius/agent:0.0.34@4b41a374567eb7cb226ee2f851513794566956008f1166c63205efc921be72d8
+        selected: false
+        title: Agente Carteiro
+        tool_node_version: '2'
+        type: agent
+      height: 222
+      id: '17756798487731'
+      position:
+        x: 660.2496190796884
+        y: 383.8515375721731
+      positionAbsolute:
+        x: 660.2496190796884
+        y: 383.8515375721731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    viewport:
+      x: 42.95854913076704
+      y: -156.21095117167164
+      zoom: 0.8281706613345455
+  rag_pipeline_variables: []
